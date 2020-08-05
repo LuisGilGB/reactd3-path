@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import JSONTree from 'react-json-tree';
-import Path from '../../Path';
+import Path from '../../src/Path';
 import { Box, Flex, Button } from 'rebass';
 import Form from './form/Form';
 import { getElOffset, getSvgEl } from './utils';
-import './styles.css';
+import './DemoApp.css';
 
 export default function App() {
   const [points, setPoints] = useState([]);
