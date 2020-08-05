@@ -4,14 +4,27 @@ import Path from '../../src/Path';
 import { Box, Flex, Button } from 'rebass';
 import Form from './form/Form';
 import { getElOffset, getSvgEl } from './utils';
+import { OPTIONS } from './consts';
 import './DemoApp.css';
 
 export default function App() {
   const [points, setPoints] = useState([]);
   const [currentSubPathType, setCurrentSubPathType] = useState('line');
+  const [pointIndex, setPointIndex] = useState(0);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [controlX1, setControlX1] = useState(0);
+  const [controlY1, setControlY1] = useState(0);
+  const [controlX2, setControlX2] = useState(0);
+  const [controlY2, setControlY2] = useState(0);
+
+  const currentOption = OPTIONS.find((opt) => opt.key === currentSubPathType);
+  const { formKeys } = currentOption;
 
   const addPoint = (newPoint) => {
+    console.log(newPoint);
     setPoints([...points, newPoint]);
+    setPointIndex(0);
   };
 
   const onSvgClick = (e) => {
@@ -20,8 +33,12 @@ export default function App() {
       const offset = getElOffset(svgEl);
       addPoint({
         type: currentSubPathType,
-        x: e.pageX - offset.x,
-        y: e.pageY - offset.y
+        [formKeys.x && 'x']: e.pageX - offset.x,
+        [formKeys.y && 'y']: e.pageY - offset.y,
+        [formKeys.controlX1 && 'controlX1']: controlX1,
+        [formKeys.controlY1 && 'controlY1']: controlY1,
+        [formKeys.controlX2 && 'controlX2']: controlX2,
+        [formKeys.controlY2 && 'controlY2']: controlY2
       });
     }
   };
@@ -55,9 +72,22 @@ export default function App() {
             ))}
           </Box>
           <Form
-            addPoint={addPoint}
             type={currentSubPathType}
+            x={x}
+            y={y}
+            controlX1={controlX1}
+            controlY1={controlY1}
+            controlX2={controlX2}
+            controlY2={controlY2}
+            formKeys={formKeys}
             setType={setCurrentSubPathType}
+            setX={setX}
+            setY={setY}
+            setControlX1={setControlX1}
+            setControlY1={setControlY1}
+            setControlX2={setControlX2}
+            setControlY2={setControlY2}
+            addPoint={addPoint}
           />
         </Box>
         <Box mx={3} minWidth={600} width={600}>

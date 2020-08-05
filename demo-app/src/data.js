@@ -24,7 +24,7 @@ export const EXAMPLE_POINTS = [
     type: 'arc',
     r: 96,
     largeArcFlag: 1,
-    sweepFlah: 0,
+    sweepFlag: 0,
     x: 256,
     y: 288
   },
