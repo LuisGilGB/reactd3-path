@@ -56,8 +56,10 @@ export const OPTIONS = [
     formKeys: {
       x: true,
       y: true,
-      controlX1: true,
-      controlY1: true,
+      controlX: true,
+      controlY: true,
+      controlX1: false,
+      controlY1: false,
       controlX2: false,
       controlY2: false,
       r: false,

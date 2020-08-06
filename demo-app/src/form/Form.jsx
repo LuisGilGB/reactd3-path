@@ -9,6 +9,8 @@ const Form = (props) => {
     type,
     x,
     y,
+    controlX,
+    controlY,
     controlX1,
     controlY1,
     controlX2,
@@ -17,6 +19,8 @@ const Form = (props) => {
     setType,
     setX,
     setY,
+    setControlX,
+    setControlY,
     setControlX1,
     setControlY1,
     setControlX2,
@@ -72,6 +76,24 @@ const Form = (props) => {
           label="y"
           value={y}
           onChange={onChangeGen(setY)}
+        />
+      )}
+      {formKeys.controlX && (
+        <NumberField
+          m={2}
+          name="controlX"
+          label="Control X"
+          value={controlX}
+          onChange={onChangeGen(setControlX)}
+        />
+      )}
+      {formKeys.controlY && (
+        <NumberField
+          m={2}
+          name="controlY"
+          label="Control Y"
+          value={controlY}
+          onChange={onChangeGen(setControlY)}
         />
       )}
       {formKeys.controlX1 && (

@@ -13,6 +13,8 @@ export default function App() {
   const [pointIndex, setPointIndex] = useState(0);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+  const [controlX, setControlX] = useState(0);
+  const [controlY, setControlY] = useState(0);
   const [controlX1, setControlX1] = useState(0);
   const [controlY1, setControlY1] = useState(0);
   const [controlX2, setControlX2] = useState(0);
@@ -35,6 +37,8 @@ export default function App() {
         type: currentSubPathType,
         [formKeys.x && 'x']: e.pageX - offset.x,
         [formKeys.y && 'y']: e.pageY - offset.y,
+        [formKeys.controlX && 'controlX']: controlX,
+        [formKeys.controlY && 'controlY']: controlY,
         [formKeys.controlX1 && 'controlX1']: controlX1,
         [formKeys.controlY1 && 'controlY1']: controlY1,
         [formKeys.controlX2 && 'controlX2']: controlX2,
@@ -75,6 +79,8 @@ export default function App() {
             type={currentSubPathType}
             x={x}
             y={y}
+            controlX={controlX}
+            controlY={controlY}
             controlX1={controlX1}
             controlY1={controlY1}
             controlX2={controlX2}
@@ -83,6 +89,8 @@ export default function App() {
             setType={setCurrentSubPathType}
             setX={setX}
             setY={setY}
+            setControlX={setControlX}
+            setControlY={setControlY}
             setControlX1={setControlX1}
             setControlY1={setControlY1}
             setControlX2={setControlX2}
