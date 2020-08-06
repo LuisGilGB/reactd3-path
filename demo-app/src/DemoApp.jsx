@@ -7,21 +7,49 @@ import { getElOffset, getSvgEl } from './utils';
 import { OPTIONS } from './consts';
 import './DemoApp.css';
 
+const INITIAL_STATE = {
+  type: 'line',
+  pointIndex: 0,
+  x: 0,
+  y: 0,
+  controlX: 0,
+  controlY: 0,
+  controlX1: 0,
+  controlY1: 0,
+  controlX2: 0,
+  controlY2: 0
+};
+
 export default function App() {
   const [points, setPoints] = useState([]);
-  const [currentSubPathType, setCurrentSubPathType] = useState('line');
-  const [pointIndex, setPointIndex] = useState(0);
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
-  const [controlX, setControlX] = useState(0);
-  const [controlY, setControlY] = useState(0);
-  const [controlX1, setControlX1] = useState(0);
-  const [controlY1, setControlY1] = useState(0);
-  const [controlX2, setControlX2] = useState(0);
-  const [controlY2, setControlY2] = useState(0);
+  const [currentSubPathType, setCurrentSubPathType] = useState(
+    INITIAL_STATE.type
+  );
+  const [pointIndex, setPointIndex] = useState(INITIAL_STATE.pointIndex);
+  const [x, setX] = useState(INITIAL_STATE.x);
+  const [y, setY] = useState(INITIAL_STATE.y);
+  const [controlX, setControlX] = useState(INITIAL_STATE.controlX);
+  const [controlY, setControlY] = useState(INITIAL_STATE.controlY);
+  const [controlX1, setControlX1] = useState(INITIAL_STATE.controlX1);
+  const [controlY1, setControlY1] = useState(INITIAL_STATE.controlY1);
+  const [controlX2, setControlX2] = useState(INITIAL_STATE.controlX2);
+  const [controlY2, setControlY2] = useState(INITIAL_STATE.controlY2);
 
   const currentOption = OPTIONS.find((opt) => opt.key === currentSubPathType);
   const { formKeys } = currentOption;
+
+  const setType = (newTypeValue) => {
+    setCurrentSubPathType(newTypeValue);
+    setPointIndex(INITIAL_STATE.pointIndex);
+    setX(INITIAL_STATE.x);
+    setY(INITIAL_STATE.y);
+    setControlX(INITIAL_STATE.controlX);
+    setControlY(INITIAL_STATE.controlY);
+    setControlX1(INITIAL_STATE.controlX1);
+    setControlY1(INITIAL_STATE.controlY1);
+    setControlX2(INITIAL_STATE.controlX2);
+    setControlY2(INITIAL_STATE.controlY2);
+  };
 
   const addPoint = (newPoint) => {
     console.log(newPoint);
@@ -86,7 +114,7 @@ export default function App() {
             controlX2={controlX2}
             controlY2={controlY2}
             formKeys={formKeys}
-            setType={setCurrentSubPathType}
+            setType={setType}
             setX={setX}
             setY={setY}
             setControlX={setControlX}
