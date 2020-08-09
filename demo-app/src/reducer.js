@@ -48,7 +48,17 @@ const reducer = (state = INITIAL_STATE, action) => {
       ...state,
       ...payload.draft
     }),
-    [ACTIONS.CLICK_SVG]: () => ({ ...state }),
+    [ACTIONS.CLICK_SVG]: () => {
+      const { x, y } = payload;
+      const { clickActions } = SUBPATH_TYPES[state.type];
+      const currentAction = clickActions[state.pointIndex];
+      return {
+        ...state,
+        x,
+        y,
+        points: [...state.points, { type: 'line', x, y }]
+      };
+    },
     [ACTIONS.RESET_POINTS]: () => ({
       ...state,
       type: INITIAL_STATE.type,
