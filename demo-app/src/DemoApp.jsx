@@ -1,77 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import JSONTree from 'react-json-tree';
 import Path from '../../src/Path';
 import { Box, Flex, Button } from 'rebass';
+import { actionCreators } from './actions';
+import reducer, { INITIAL_STATE } from './reducer';
 import Form from './form/Form';
 import { getElOffset, getSvgEl } from './utils';
 import { OPTIONS } from './consts';
 import './DemoApp.css';
 
-const INITIAL_STATE = {
-  type: 'line',
-  pointIndex: 0,
-  x: 0,
-  y: 0,
-  controlX: 0,
-  controlY: 0,
-  controlX1: 0,
-  controlY1: 0,
-  controlX2: 0,
-  controlY2: 0
-};
-
 export default function App() {
-  const [points, setPoints] = useState([]);
-  const [currentSubPathType, setCurrentSubPathType] = useState(
-    INITIAL_STATE.type
-  );
-  const [pointIndex, setPointIndex] = useState(INITIAL_STATE.pointIndex);
-  const [x, setX] = useState(INITIAL_STATE.x);
-  const [y, setY] = useState(INITIAL_STATE.y);
-  const [controlX, setControlX] = useState(INITIAL_STATE.controlX);
-  const [controlY, setControlY] = useState(INITIAL_STATE.controlY);
-  const [controlX1, setControlX1] = useState(INITIAL_STATE.controlX1);
-  const [controlY1, setControlY1] = useState(INITIAL_STATE.controlY1);
-  const [controlX2, setControlX2] = useState(INITIAL_STATE.controlX2);
-  const [controlY2, setControlY2] = useState(INITIAL_STATE.controlY2);
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const { points, type } = state;
 
-  const currentOption = OPTIONS.find((opt) => opt.key === currentSubPathType);
-  const { formKeys } = currentOption;
+  const currentOption = OPTIONS.find((opt) => opt.key === type);
+  const { formKeys, clickActions } = currentOption;
 
   const setType = (newTypeValue) => {
-    setCurrentSubPathType(newTypeValue);
-    setPointIndex(INITIAL_STATE.pointIndex);
-    setX(INITIAL_STATE.x);
-    setY(INITIAL_STATE.y);
-    setControlX(INITIAL_STATE.controlX);
-    setControlY(INITIAL_STATE.controlY);
-    setControlX1(INITIAL_STATE.controlX1);
-    setControlY1(INITIAL_STATE.controlY1);
-    setControlX2(INITIAL_STATE.controlX2);
-    setControlY2(INITIAL_STATE.controlY2);
+    dispatch(actionCreators.setType(newTypeValue));
   };
 
-  const addPoint = (newPoint) => {
-    console.log(newPoint);
-    setPoints([...points, newPoint]);
-    setPointIndex(0);
+  const addPoint = () => {
+    const newPoint = {
+      type,
+      [formKeys.x && 'x']: state.x,
+      [formKeys.y && 'y']: state.y,
+      [formKeys.controlX && 'controlX']: state.controlX,
+      [formKeys.controlY && 'controlY']: state.controlY,
+      [formKeys.controlX1 && 'controlX1']: state.controlX1,
+      [formKeys.controlY1 && 'controlY1']: state.controlY1,
+      [formKeys.controlX2 && 'controlX2']: state.controlX2,
+      [formKeys.controlY2 && 'controlY2']: state.controlY2
+    };
+    dispatch(actionCreators.addPoint(newPoint));
+  };
+
+  const onFormChange = (key, value) => {
+    dispatch(actionCreators.updateDraftPoint({ [key]: value }));
   };
 
   const onSvgClick = (e) => {
     const svgEl = getSvgEl(e.target);
     if (svgEl) {
       const offset = getElOffset(svgEl);
-      addPoint({
-        type: currentSubPathType,
-        [formKeys.x && 'x']: e.pageX - offset.x,
-        [formKeys.y && 'y']: e.pageY - offset.y,
-        [formKeys.controlX && 'controlX']: controlX,
-        [formKeys.controlY && 'controlY']: controlY,
-        [formKeys.controlX1 && 'controlX1']: controlX1,
-        [formKeys.controlY1 && 'controlY1']: controlY1,
-        [formKeys.controlX2 && 'controlX2']: controlX2,
-        [formKeys.controlY2 && 'controlY2']: controlY2
-      });
+      const clickX = e.pageX - offset.x;
+      const clickY = e.pageY - offset.y;
+      dispatch(actionCreators.clickSvg(clickX, clickY));
+      /*const currentAction = clickActions[pointIndex];
+      const nextPointIndex = pointIndex + 1;
+      switch (currentAction.key) {
+        case 'x':
+          setX(clickX);
+          break;
+        case 'y':
+          setY(clickY);
+          break;
+        case 'controlxy':
+          setControlX(clickX);
+          setControlY(clickY);
+          break;
+        case 'controlxy1':
+          setControlX1(clickX);
+          setControlY1(clickY);
+          break;
+        case 'controlxy2':
+          setControlX2(clickX);
+          setControlY2(clickY);
+          break;
+        default:
+          setX(clickX);
+          setY(clickY);
+          break;
+      }
+      if (clickActions.length === nextPointIndex) {
+      }*/
     }
   };
 
@@ -104,26 +106,19 @@ export default function App() {
             ))}
           </Box>
           <Form
-            type={currentSubPathType}
-            x={x}
-            y={y}
-            controlX={controlX}
-            controlY={controlY}
-            controlX1={controlX1}
-            controlY1={controlY1}
-            controlX2={controlX2}
-            controlY2={controlY2}
+            type={type}
+            x={state.x}
+            y={state.y}
+            controlX={state.controlX}
+            controlY={state.controlY}
+            controlX1={state.controlX1}
+            controlY1={state.controlY1}
+            controlX2={state.controlX2}
+            controlY2={state.controlY2}
             formKeys={formKeys}
             setType={setType}
-            setX={setX}
-            setY={setY}
-            setControlX={setControlX}
-            setControlY={setControlY}
-            setControlX1={setControlX1}
-            setControlY1={setControlY1}
-            setControlX2={setControlX2}
-            setControlY2={setControlY2}
-            addPoint={addPoint}
+            onChange={onFormChange}
+            onSubmit={addPoint}
           />
         </Box>
         <Box mx={3} minWidth={600} width={600}>
@@ -151,7 +146,9 @@ export default function App() {
                 }
               }}
               p={2}
-              onClick={() => setPoints([])}
+              onClick={() => {
+                dispatch(actionCreators.resetPoints());
+              }}
             >
               Reset
             </Button>

@@ -24,21 +24,6 @@ export const OPTIONS = [
     key: 'horizontal',
     label: 'Horizontal',
     formKeys: {
-      x: false,
-      y: true,
-      controlX1: false,
-      controlY1: false,
-      controlX2: false,
-      controlY2: false,
-      r: false,
-      largeArcFlag: false,
-      sweepFlag: false
-    }
-  },
-  {
-    key: 'vertical',
-    label: 'Vertical',
-    formKeys: {
       x: true,
       y: false,
       controlX1: false,
@@ -48,7 +33,34 @@ export const OPTIONS = [
       r: false,
       largeArcFlag: false,
       sweepFlag: false
-    }
+    },
+    clickActions: [
+      {
+        key: 'x',
+        affectedKeys: ['x']
+      }
+    ]
+  },
+  {
+    key: 'vertical',
+    label: 'Vertical',
+    formKeys: {
+      x: false,
+      y: true,
+      controlX1: false,
+      controlY1: false,
+      controlX2: false,
+      controlY2: false,
+      r: false,
+      largeArcFlag: false,
+      sweepFlag: false
+    },
+    clickActions: [
+      {
+        key: 'y',
+        affectedKeys: ['y']
+      }
+    ]
   },
   {
     key: 'quadratic',
@@ -65,7 +77,17 @@ export const OPTIONS = [
       r: false,
       largeArcFlag: false,
       sweepFlag: false
-    }
+    },
+    clickActions: [
+      {
+        key: 'xy',
+        affectedKeys: ['x', 'y']
+      },
+      {
+        key: 'controlxy',
+        affectedKeys: ['controlX', 'controlY']
+      }
+    ]
   },
   {
     key: 'bezier',
@@ -80,7 +102,21 @@ export const OPTIONS = [
       r: false,
       largeArcFlag: false,
       sweepFlag: false
-    }
+    },
+    clickActions: [
+      {
+        key: 'xy',
+        affectedKeys: ['x', 'y']
+      },
+      {
+        key: 'controlxy1',
+        affectedKeys: ['controlX1', 'controlY1']
+      },
+      {
+        key: 'controlxy2',
+        affectedKeys: ['controlX2', 'controlY2']
+      }
+    ]
   },
   {
     key: 'arc',
@@ -95,6 +131,12 @@ export const OPTIONS = [
       r: true,
       largeArcFlag: true,
       sweepFlag: true
-    }
+    },
+    clickActions: [
+      {
+        key: 'xy',
+        affectedKeys: ['x', 'y']
+      }
+    ]
   }
 ];

@@ -17,15 +17,8 @@ const Form = (props) => {
     controlY2,
     formKeys,
     setType,
-    setX,
-    setY,
-    setControlX,
-    setControlY,
-    setControlX1,
-    setControlY1,
-    setControlX2,
-    setControlY2,
-    addPoint
+    onChange,
+    onSubmit: onSubmitProp
   } = props;
 
   const onSubmit = (e) => {
@@ -33,15 +26,15 @@ const Form = (props) => {
     console.log(type);
     const newPoint = { type, x, y, controlX1, controlY1, controlX2, controlY2 };
     console.log('New point:', newPoint);
-    addPoint(newPoint);
+    onSubmitProp(newPoint);
   };
 
   const onTypeChange = (e) => {
     setType(e.target.value);
   };
 
-  const onChangeGen = (setter) => (value) => {
-    setter(value);
+  const onChangeGen = (name, value) => {
+    onChange(name, value);
   };
 
   return (
@@ -66,7 +59,7 @@ const Form = (props) => {
           name="x"
           label="x"
           value={x}
-          onChange={onChangeGen(setX)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.y && (
@@ -75,7 +68,7 @@ const Form = (props) => {
           name="y"
           label="y"
           value={y}
-          onChange={onChangeGen(setY)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlX && (
@@ -84,7 +77,7 @@ const Form = (props) => {
           name="controlX"
           label="Control X"
           value={controlX}
-          onChange={onChangeGen(setControlX)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlY && (
@@ -93,7 +86,7 @@ const Form = (props) => {
           name="controlY"
           label="Control Y"
           value={controlY}
-          onChange={onChangeGen(setControlY)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlX1 && (
@@ -102,7 +95,7 @@ const Form = (props) => {
           name="controlX1"
           label="Control X 1"
           value={controlX1}
-          onChange={onChangeGen(setControlX1)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlY1 && (
@@ -111,7 +104,7 @@ const Form = (props) => {
           name="controlY1"
           label="Control Y 1"
           value={controlY1}
-          onChange={onChangeGen(setControlY1)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlX2 && (
@@ -120,7 +113,7 @@ const Form = (props) => {
           name="controlX2"
           label="Control X 2"
           value={controlX2}
-          onChange={onChangeGen(setControlX2)}
+          onChange={onChangeGen}
         />
       )}
       {formKeys.controlY2 && (
@@ -129,7 +122,7 @@ const Form = (props) => {
           name="controlY2"
           label="Control Y 2"
           value={controlY2}
-          onChange={onChangeGen(setControlY2)}
+          onChange={onChangeGen}
         />
       )}
       <Button

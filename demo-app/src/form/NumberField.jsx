@@ -14,7 +14,7 @@ const NumberField = (props) => {
   } = props;
 
   const onChange = (e) => {
-    onChangeProp(+e.target.value);
+    onChangeProp(name, +e.target.value);
   };
 
   return (
