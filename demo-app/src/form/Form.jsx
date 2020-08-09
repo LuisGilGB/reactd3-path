@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button } from 'rebass';
 import { Select } from '@rebass/forms';
 import NumberField from './NumberField';
-import { OPTIONS } from '../consts';
+import { SUBPATH_TYPES } from '../consts';
 
 const Form = (props) => {
   const {
@@ -23,10 +23,7 @@ const Form = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(type);
-    const newPoint = { type, x, y, controlX1, controlY1, controlX2, controlY2 };
-    console.log('New point:', newPoint);
-    onSubmitProp(newPoint);
+    onSubmitProp();
   };
 
   const onTypeChange = (e) => {
@@ -47,7 +44,7 @@ const Form = (props) => {
       onSubmit={onSubmit}
     >
       <Select name="type" value={type} onChange={onTypeChange}>
-        {OPTIONS.map((opt) => (
+        {Object.values(SUBPATH_TYPES).map((opt) => (
           <option key={opt.key} value={opt.key}>
             {opt.label}
           </option>

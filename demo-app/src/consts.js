@@ -1,5 +1,5 @@
-export const OPTIONS = [
-  {
+export const SUBPATH_TYPES = {
+  line: {
     key: 'line',
     label: 'Line',
     formKeys: {
@@ -20,7 +20,7 @@ export const OPTIONS = [
       }
     ]
   },
-  {
+  horizontal: {
     key: 'horizontal',
     label: 'Horizontal',
     formKeys: {
@@ -41,7 +41,7 @@ export const OPTIONS = [
       }
     ]
   },
-  {
+  vertical: {
     key: 'vertical',
     label: 'Vertical',
     formKeys: {
@@ -62,7 +62,7 @@ export const OPTIONS = [
       }
     ]
   },
-  {
+  quadratic: {
     key: 'quadratic',
     label: 'Quadratic',
     formKeys: {
@@ -89,7 +89,7 @@ export const OPTIONS = [
       }
     ]
   },
-  {
+  bezier: {
     key: 'bezier',
     label: 'Bezier',
     formKeys: {
@@ -118,7 +118,7 @@ export const OPTIONS = [
       }
     ]
   },
-  {
+  arc: {
     key: 'arc',
     label: 'Arc',
     formKeys: {
@@ -139,4 +139,4 @@ export const OPTIONS = [
       }
     ]
   }
-];
+};

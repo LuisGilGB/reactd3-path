@@ -1,4 +1,5 @@
 import { ACTIONS } from './actions';
+import { SUBPATH_TYPES } from './consts';
 
 const INITIAL_DRAFT_POINT_STATE = {
   type: 'line',
@@ -26,10 +27,21 @@ const reducer = (state = INITIAL_STATE, action) => {
       ...INITIAL_DRAFT_POINT_STATE,
       type: payload.type
     }),
-    [ACTIONS.ADD_POINT]: () => ({
-      ...state,
-      points: [...state.points, payload.point]
-    }),
+    [ACTIONS.ADD_POINT]: () => {
+      const newPoint = {
+        type: state.type
+      };
+      const { formKeys } = SUBPATH_TYPES[state.type];
+      Object.keys(formKeys).forEach((key) => {
+        if (formKeys[key]) {
+          newPoint[key] = state[key];
+        }
+      });
+      return {
+        ...state,
+        points: [...state.points, newPoint]
+      };
+    },
     [ACTIONS.UPDATE_DRAFT_POINT]: () => ({
       ...state,
       ...payload.draft

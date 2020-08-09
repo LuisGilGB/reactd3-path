@@ -6,14 +6,14 @@ import { actionCreators } from './actions';
 import reducer, { INITIAL_STATE } from './reducer';
 import Form from './form/Form';
 import { getElOffset, getSvgEl } from './utils';
-import { OPTIONS } from './consts';
+import { SUBPATH_TYPES } from './consts';
 import './DemoApp.css';
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { points, type } = state;
 
-  const currentOption = OPTIONS.find((opt) => opt.key === type);
+  const currentOption = SUBPATH_TYPES[type];
   const { formKeys, clickActions } = currentOption;
 
   const setType = (newTypeValue) => {
@@ -21,18 +21,7 @@ export default function App() {
   };
 
   const addPoint = () => {
-    const newPoint = {
-      type,
-      [formKeys.x && 'x']: state.x,
-      [formKeys.y && 'y']: state.y,
-      [formKeys.controlX && 'controlX']: state.controlX,
-      [formKeys.controlY && 'controlY']: state.controlY,
-      [formKeys.controlX1 && 'controlX1']: state.controlX1,
-      [formKeys.controlY1 && 'controlY1']: state.controlY1,
-      [formKeys.controlX2 && 'controlX2']: state.controlX2,
-      [formKeys.controlY2 && 'controlY2']: state.controlY2
-    };
-    dispatch(actionCreators.addPoint(newPoint));
+    dispatch(actionCreators.addPoint());
   };
 
   const onFormChange = (key, value) => {

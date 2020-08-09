@@ -11,9 +11,9 @@ export const actionCreators = {
     type: ACTIONS.SET_TYPE,
     payload: { type }
   }),
-  addPoint: (point) => ({
+  addPoint: () => ({
     type: ACTIONS.ADD_POINT,
-    payload: { point }
+    payload: {}
   }),
   updateDraftPoint: (draft) => ({
     type: ACTIONS.UPDATE_DRAFT_POINT,
