@@ -1,4 +1,18 @@
 export const SUBPATH_TYPES = {
+  move: {
+    key: 'move',
+    label: 'Move',
+    formKeys: {
+      x: true,
+      y: true
+    },
+    clickActions: [
+      {
+        key: 'xy',
+        affectedKeys: ['x', 'y']
+      }
+    ]
+  },
   line: {
     key: 'line',
     label: 'Line',

@@ -2,7 +2,7 @@ import { ACTIONS } from './actions';
 import { SUBPATH_TYPES } from './consts';
 
 const INITIAL_DRAFT_POINT_STATE = {
-  type: 'line',
+  type: 'move',
   pointIndex: 0,
   x: 0,
   y: 0,
@@ -28,8 +28,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       type: payload.type
     }),
     [ACTIONS.ADD_POINT]: () => {
+      const type = state.points && state.points.length ? state.type : 'move';
       const newPoint = {
-        type: state.type
+        type
       };
       const { formKeys } = SUBPATH_TYPES[state.type];
       Object.keys(formKeys).forEach((key) => {
@@ -39,6 +40,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       });
       return {
         ...state,
+        type: type === 'move' ? 'line' : state.type,
         points: [...state.points, newPoint]
       };
     },
@@ -49,6 +51,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     [ACTIONS.CLICK_SVG]: () => ({ ...state }),
     [ACTIONS.RESET_POINTS]: () => ({
       ...state,
+      type: INITIAL_STATE.type,
       points: INITIAL_STATE.points
     })
   };

@@ -95,6 +95,7 @@ export default function App() {
             ))}
           </Box>
           <Form
+            renderTypeSelect={!!points.length}
             type={type}
             x={state.x}
             y={state.y}

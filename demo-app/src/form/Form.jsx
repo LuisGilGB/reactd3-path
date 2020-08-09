@@ -6,6 +6,7 @@ import { SUBPATH_TYPES } from '../consts';
 
 const Form = (props) => {
   const {
+    renderTypeSelect = true,
     type,
     x,
     y,
@@ -43,13 +44,15 @@ const Form = (props) => {
       p={1}
       onSubmit={onSubmit}
     >
-      <Select name="type" value={type} onChange={onTypeChange}>
-        {Object.values(SUBPATH_TYPES).map((opt) => (
-          <option key={opt.key} value={opt.key}>
-            {opt.label}
-          </option>
-        ))}
-      </Select>
+      {renderTypeSelect && (
+        <Select name="type" value={type} onChange={onTypeChange}>
+          {Object.values(SUBPATH_TYPES).map((opt) => (
+            <option key={opt.key} value={opt.key}>
+              {opt.label}
+            </option>
+          ))}
+        </Select>
+      )}
       {formKeys.x && (
         <NumberField
           m={2}
