@@ -54,6 +54,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       const currentAction = clickActions[state.pointIndex];
       return {
         ...state,
+        pointIndex:
+          state.pointIndex < clickActions.length - 1 ? state.pointIndex + 1 : 0,
         x,
         y,
         points: [...state.points, { type: 'line', x, y }]
