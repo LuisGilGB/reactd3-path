@@ -37,30 +37,7 @@ export default function App() {
       dispatch(actionCreators.clickSvg(clickX, clickY));
       /*const currentAction = clickActions[pointIndex];
       const nextPointIndex = pointIndex + 1;
-      switch (currentAction.key) {
-        case 'x':
-          setX(clickX);
-          break;
-        case 'y':
-          setY(clickY);
-          break;
-        case 'controlxy':
-          setControlX(clickX);
-          setControlY(clickY);
-          break;
-        case 'controlxy1':
-          setControlX1(clickX);
-          setControlY1(clickY);
-          break;
-        case 'controlxy2':
-          setControlX2(clickX);
-          setControlY2(clickY);
-          break;
-        default:
-          setX(clickX);
-          setY(clickY);
-          break;
-      }
+      
       if (clickActions.length === nextPointIndex) {
       }*/
     }

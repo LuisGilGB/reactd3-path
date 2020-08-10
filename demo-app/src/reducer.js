@@ -51,13 +51,37 @@ const reducer = (state = INITIAL_STATE, action) => {
     [ACTIONS.CLICK_SVG]: () => {
       const { x, y } = payload;
       const { clickActions } = SUBPATH_TYPES[state.type];
-      const currentAction = clickActions[state.pointIndex];
+      const { key: actionKey } = clickActions[state.pointIndex];
+      let update = {};
+      switch (actionKey) {
+        case 'x':
+          update.x = x;
+          break;
+        case 'y':
+          update.y = y;
+          break;
+        case 'controlxy':
+          update.controlX = x;
+          update.controlY = y;
+          break;
+        case 'controlxy1':
+          update.controlX1 = x;
+          update.controlY1 = y;
+          break;
+        case 'controlxy2':
+          update.controlX2 = x;
+          update.controlY2 = y;
+          break;
+        default:
+          update.x = x;
+          update.y = y;
+          break;
+      }
       return {
         ...state,
         pointIndex:
           state.pointIndex < clickActions.length - 1 ? state.pointIndex + 1 : 0,
-        x,
-        y,
+        ...update,
         points: [...state.points, { type: 'line', x, y }]
       };
     },
