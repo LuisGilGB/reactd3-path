@@ -10,6 +10,7 @@ const Form = (props) => {
     type,
     x,
     y,
+    r,
     controlX,
     controlY,
     controlX1,
@@ -70,6 +71,15 @@ const Form = (props) => {
           name="y"
           label="y"
           value={y}
+          onChange={onChangeGen}
+        />
+      )}
+      {formKeys.r && (
+        <NumberField
+          m={2}
+          name="r"
+          label="Radius"
+          value={r}
           onChange={onChangeGen}
         />
       )}

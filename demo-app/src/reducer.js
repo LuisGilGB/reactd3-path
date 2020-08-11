@@ -6,12 +6,15 @@ const INITIAL_DRAFT_POINT_STATE = {
   clickIndex: 0,
   x: 0,
   y: 0,
+  r: 0,
   controlX: 0,
   controlY: 0,
   controlX1: 0,
   controlY1: 0,
   controlX2: 0,
-  controlY2: 0
+  controlY2: 0,
+  largeArcFlag: 1,
+  sweepFlag: 1
 };
 
 export const INITIAL_STATE = {
@@ -76,6 +79,11 @@ const reducer = (state = INITIAL_STATE, action) => {
           update.controlX2 = x;
           update.controlY2 = y;
           break;
+        case 'r':
+          update.r = Math.sqrt(
+            Math.pow(Math.abs(x - state.x), 2) +
+              Math.pow(Math.abs(y - state.y), 2)
+          );
         default:
           update.x = x;
           update.y = y;

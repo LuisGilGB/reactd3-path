@@ -67,6 +67,7 @@ export default function App() {
             type={type}
             x={state.x}
             y={state.y}
+            r={state.r}
             controlX={state.controlX}
             controlY={state.controlY}
             controlX1={state.controlX1}

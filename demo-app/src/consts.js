@@ -148,6 +148,10 @@ export const SUBPATH_TYPES = {
     },
     clickActions: [
       {
+        key: 'r',
+        affectedKeys: ['r']
+      },
+      {
         key: 'xy',
         affectedKeys: ['x', 'y']
       }
