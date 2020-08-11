@@ -3,7 +3,7 @@ import { SUBPATH_TYPES } from './consts';
 
 const INITIAL_DRAFT_POINT_STATE = {
   type: 'move',
-  pointIndex: 0,
+  clickIndex: 0,
   x: 0,
   y: 0,
   controlX: 0,
@@ -19,6 +19,21 @@ export const INITIAL_STATE = {
   points: []
 };
 
+const retrieveNewPoint = (rawState = {}, stateOverride = {}) => {
+  const state = { ...rawState, ...stateOverride };
+  const type = state.points && state.points.length ? state.type : 'move';
+  const point = {
+    type
+  };
+  const { formKeys } = SUBPATH_TYPES[state.type];
+  Object.keys(formKeys).forEach((key) => {
+    if (formKeys[key]) {
+      point[key] = state[key];
+    }
+  });
+  return point;
+};
+
 const reducer = (state = INITIAL_STATE, action) => {
   const { type: actionType, payload } = action;
   const reducers = {
@@ -27,23 +42,12 @@ const reducer = (state = INITIAL_STATE, action) => {
       ...INITIAL_DRAFT_POINT_STATE,
       type: payload.type
     }),
-    [ACTIONS.ADD_POINT]: () => {
-      const type = state.points && state.points.length ? state.type : 'move';
-      const newPoint = {
-        type
-      };
-      const { formKeys } = SUBPATH_TYPES[state.type];
-      Object.keys(formKeys).forEach((key) => {
-        if (formKeys[key]) {
-          newPoint[key] = state[key];
-        }
-      });
-      return {
-        ...state,
-        type: type === 'move' ? 'line' : state.type,
-        points: [...state.points, newPoint]
-      };
-    },
+    [ACTIONS.ADD_POINT]: () => ({
+      ...state,
+      clickIndex: 0,
+      type: points.length ? state.type : 'line',
+      points: [...state.points, retrieveNewPoint(state)]
+    }),
     [ACTIONS.UPDATE_DRAFT_POINT]: () => ({
       ...state,
       ...payload.draft
@@ -51,7 +55,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     [ACTIONS.CLICK_SVG]: () => {
       const { x, y } = payload;
       const { clickActions } = SUBPATH_TYPES[state.type];
-      const { key: actionKey } = clickActions[state.pointIndex];
+      const { key: actionKey } = clickActions[state.clickIndex];
       let update = {};
       switch (actionKey) {
         case 'x':
@@ -77,12 +81,15 @@ const reducer = (state = INITIAL_STATE, action) => {
           update.y = y;
           break;
       }
+      const isLastClickIndex = state.clickIndex >= clickActions.length - 1;
       return {
         ...state,
-        pointIndex:
-          state.pointIndex < clickActions.length - 1 ? state.pointIndex + 1 : 0,
+        clickIndex: isLastClickIndex ? 0 : state.clickIndex + 1,
         ...update,
-        points: [...state.points, { type: 'line', x, y }]
+        type: state.points.length ? state.type : 'line',
+        points: isLastClickIndex
+          ? [...state.points, retrieveNewPoint(state, update)]
+          : state.points
       };
     },
     [ACTIONS.RESET_POINTS]: () => ({
