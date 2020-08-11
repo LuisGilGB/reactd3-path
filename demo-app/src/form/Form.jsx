@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button } from 'rebass';
 import { Select } from '@rebass/forms';
 import NumberField from './NumberField';
@@ -16,11 +16,13 @@ const Form = (props) => {
     controlY1,
     controlX2,
     controlY2,
-    formKeys,
     setType,
     onChange,
     onSubmit: onSubmitProp
   } = props;
+
+  const currentOption = SUBPATH_TYPES[type];
+  const { formKeys } = currentOption;
 
   const onSubmit = (e) => {
     e.preventDefault();

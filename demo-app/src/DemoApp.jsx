@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import JSONTree from 'react-json-tree';
 import Path from '../../src/Path';
 import { Box, Flex, Button } from 'rebass';
@@ -6,15 +6,11 @@ import { actionCreators } from './actions';
 import reducer, { INITIAL_STATE } from './reducer';
 import Form from './form/Form';
 import { getElOffset, getSvgEl } from './utils';
-import { SUBPATH_TYPES } from './consts';
 import './DemoApp.css';
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { points, type } = state;
-
-  const currentOption = SUBPATH_TYPES[type];
-  const { formKeys, clickActions } = currentOption;
 
   const setType = (newTypeValue) => {
     dispatch(actionCreators.setType(newTypeValue));
@@ -35,11 +31,6 @@ export default function App() {
       const clickX = e.pageX - offset.x;
       const clickY = e.pageY - offset.y;
       dispatch(actionCreators.clickSvg(clickX, clickY));
-      /*const currentAction = clickActions[pointIndex];
-      const nextPointIndex = pointIndex + 1;
-      
-      if (clickActions.length === nextPointIndex) {
-      }*/
     }
   };
 
@@ -82,7 +73,6 @@ export default function App() {
             controlY1={state.controlY1}
             controlX2={state.controlX2}
             controlY2={state.controlY2}
-            formKeys={formKeys}
             setType={setType}
             onChange={onFormChange}
             onSubmit={addPoint}
