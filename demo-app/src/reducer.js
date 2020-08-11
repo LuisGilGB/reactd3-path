@@ -1,3 +1,4 @@
+import { exists } from '@luisgilgb/js-utils';
 import { ACTIONS } from './actions';
 import { SUBPATH_TYPES } from './consts';
 
@@ -35,6 +36,16 @@ const retrieveNewPoint = (rawState = {}, stateOverride = {}) => {
     }
   });
   return point;
+};
+
+const lastXY = (points = [], reverseI = 1, tempRes = {}) => {
+  if (!(points && points.length)) {
+    return { x: 0, y: 0 };
+  }
+  const { x = tempRes.x, y = tempRes.y } = points.slice(-reverseI)[0];
+  return (exists(x) && exists(y)) || reverseI === points.length
+    ? { x, y }
+    : lastXY(points, reverseI + 1, { x, y });
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -80,10 +91,8 @@ const reducer = (state = INITIAL_STATE, action) => {
           update.controlY2 = y;
           break;
         case 'r':
-          update.r = Math.sqrt(
-            Math.pow(Math.abs(x - state.x), 2) +
-              Math.pow(Math.abs(y - state.y), 2)
-          );
+          const { x: oldX, y: oldY } = lastXY(state.points);
+          update.r = Math.sqrt(Math.pow(x - oldX, 2) + Math.pow(y - oldY, 2));
         default:
           update.x = x;
           update.y = y;
